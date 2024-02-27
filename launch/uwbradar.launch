@@ -1,0 +1,53 @@
+<launch>
+	<!--****************************************************************************************-->
+	<!-- Getting UWB radar observations ********************************************************-->
+	<!--****************************************************************************************-->
+
+	<!-- Use $/dev and $ls to find the device names, change the following as required -->
+	<arg name="radar1" default="/dev/ttyACM0" />
+	<arg name="radar2" default="/dev/ttyACM1" />
+	<arg name="radar3" default="/dev/ttyACM2" />
+	<arg name="radar4" default="/dev/ttyACM3" />
+
+	<!-- Load parameter file, edit for suitable parameters-->
+	<rosparam command="load" file="$(find x4m300)/params/params.yaml" />
+
+	<!-- Uncommenr the necessary sections to use the appropriate sensors-->
+	<group ns="UWBradar1">
+		<node pkg="x4m300" name="radar" type="readUWB.py" args="-d $(arg radar1)" output="screen"/>
+	</group>
+	<group ns="UWBradar2">
+		<node pkg="x4m300" name="radar" type="readUWB.py" args="-d $(arg radar2)" output="screen"/>
+	</group>
+	<!--
+	<group ns="UWBradar3">
+		<node pkg="x4m300" name="radar" type="readUWB.py" args="-d $(arg radar3)" output="screen"/>
+	</group>
+	<group ns="UWBradar4">
+		<node pkg="x4m300" name="radar" type="readUWB.py" args="-d $(arg radar4)" output="screen"/>
+	</group>
+	-->
+
+
+	<!--***************************************************************************************^-->
+	<!-- Plotting UWB radar observations *******************************************************-->
+	<!--****************************************************************************************-->
+
+	<!-- Find the corresponding topics and update as necessary -->
+	<arg name="topic1" default="/UWBradar1/readings" />
+	<arg name="topic2" default="/UWBradar2/readings" />
+	<!--
+	<arg name="topic3" default="/UWBradar3/readings" />
+	<arg name="topic4" default="/UWBradar4/readings" />
+	-->
+	
+
+	<!-- Uncomment to plot each reading from UWB radar-->
+	<node pkg="x4m300" name="read1" type="plotUWB.py" args="-t $(arg topic1)" output="screen"/>
+	<node pkg="x4m300" name="read2" type="plotUWB.py" args="-t $(arg topic2)" output="screen"/>
+	<!--
+	<node pkg="x4m300" name="read3" type="plotUWB.py" args="-t $(arg topic3)" output="screen"/>
+	<node pkg="x4m300" name="read4" type="plotUWB.py" args="-t $(arg topic4)" output="screen"/>
+	-->
+
+</launch>

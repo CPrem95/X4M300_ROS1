@@ -1,0 +1,4 @@
+# params.yaml
+
+pubRate: 15 # <20{FPS of the UWB radar} 
+xLims: [1, 1000] #limits in the plotting x axis 0<limit<1400
